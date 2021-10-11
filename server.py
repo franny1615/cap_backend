@@ -179,4 +179,4 @@ def format_error(e):
                       response['error_message'], 'error_code': response['error_code'], 'error_type': response['error_type']}}
 
 if __name__ == '__main__':
-    app.run(port=os.getenv('PORT', 8000))
+    app.run()
