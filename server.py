@@ -16,7 +16,6 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import jsonify
-from flask_cors import CORS, cross_origin
 from datetime import datetime
 from datetime import timedelta
 import plaid
@@ -29,9 +28,7 @@ from dotenv import load_dotenv
 from werkzeug.wrappers import response
 load_dotenv()
 
-app = Flask(__name__)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+app = flask.Flask(__name__)
 
 # Fill in your Plaid API keys - https://dashboard.plaid.com/account/keys
 PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
@@ -99,7 +96,6 @@ access_token = None
 item_id = None
 
 @app.route('/api/info', methods=['POST'])
-@cross_origin()
 def info():
     global access_token
     global item_id
