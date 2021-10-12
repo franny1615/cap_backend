@@ -16,6 +16,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import jsonify
+from flask_cors import CORS, cross_origin
 from datetime import datetime
 from datetime import timedelta
 import plaid
@@ -29,6 +30,8 @@ from werkzeug.wrappers import response
 load_dotenv()
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Fill in your Plaid API keys - https://dashboard.plaid.com/account/keys
 PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
@@ -46,7 +49,6 @@ PLAID_PRODUCTS = os.getenv('PLAID_PRODUCTS', 'transactions').split(',')
 # PLAID_COUNTRY_CODES is a comma-separated list of countries for which users
 # will be able to select institutions from.
 PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US').split(',')
-
 
 def empty_to_none(field):
     value = os.getenv(field)
@@ -97,6 +99,7 @@ access_token = None
 item_id = None
 
 @app.route('/api/info', methods=['POST'])
+@cross_origin()
 def info():
     global access_token
     global item_id
@@ -119,7 +122,6 @@ def create_link_token():
                 client_user_id=str(time.time())
             )
         )
-
         # create link token
         response = client.link_token_create(request)
         return jsonify(response.to_dict())
@@ -179,4 +181,4 @@ def format_error(e):
                       response['error_message'], 'error_code': response['error_code'], 'error_type': response['error_type']}}
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=os.getenv('PORT', 8000))
