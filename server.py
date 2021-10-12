@@ -12,10 +12,8 @@ from plaid.model.transactions_get_request import TransactionsGetRequest
 from plaid.model.transactions_get_request_options import TransactionsGetRequestOptions
 from plaid.model.ach_class import ACHClass
 from plaid.api import plaid_api
-from flask import Flask
-from flask import render_template
-from flask import request
-from flask import jsonify
+
+from flask import Flask, request, jsonify
 from datetime import datetime
 from datetime import timedelta
 import plaid
@@ -94,6 +92,10 @@ for product in PLAID_PRODUCTS:
 access_token = None
 
 item_id = None
+
+@app.route('/')
+def index():
+    return "<h1>This is the server</h1>"
 
 @app.route('/api/info', methods=['POST'])
 def info():
@@ -177,4 +179,4 @@ def format_error(e):
                       response['error_message'], 'error_code': response['error_code'], 'error_type': response['error_type']}}
 
 if __name__ == '__main__':
-    app.run(port=os.getenv('PORT', 8000))
+    app.run(debug=False, port=5000)
