@@ -28,7 +28,7 @@ from dotenv import load_dotenv
 from werkzeug.wrappers import response
 load_dotenv()
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 
 # Fill in your Plaid API keys - https://dashboard.plaid.com/account/keys
 PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
