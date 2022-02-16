@@ -153,7 +153,7 @@ def get_access_token():
 @app.route('/api/transactions', methods=['GET'])
 def get_transactions():
     # Pull transactions for the last 30 days
-    start_date = (datetime.datetime.now() - timedelta(days=30))
+    start_date = (datetime.datetime.now() - timedelta(days=730))
     end_date = datetime.datetime.now()
     try:
         options = TransactionsGetRequestOptions()
