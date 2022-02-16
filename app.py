@@ -150,7 +150,7 @@ def get_access_token():
 
 # Retrieve Transactions for an Item
 # https://plaid.com/docs/#transactions
-@app.route('/api/transactions', methods=['GET'])
+@app.route('/api/transactions', methods=['POST'])
 def get_transactions():
     # Pull transactions for the last 700 days
     start_date = (datetime.datetime.now() - timedelta(days=700))
