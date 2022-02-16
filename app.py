@@ -152,22 +152,22 @@ def get_access_token():
 # https://plaid.com/docs/#transactions
 @app.route('/api/transactions', methods=['POST'])
 def get_transactions():
-    # Pull transactions for the last 700 days
-    start_date = (datetime.datetime.now() - timedelta(days=700))
+    access_token = request.form['access_token']
+    # Pull transactions for the last 730 days
+    start_date = (datetime.datetime.now() - timedelta(days=730))
     end_date = datetime.datetime.now()
     try:
         options = TransactionsGetRequestOptions(
             count=500,
             offset=0
         )
-        request = TransactionsGetRequest(
+        transactions_request = TransactionsGetRequest(
             access_token=access_token,
             start_date=start_date.date(),
             end_date=end_date.date(),
             options=options
         )
-        response = client.transactions_get(request)
-        pretty_print_response(response.to_dict())
+        response = client.transactions_get(transactions_request)
         return jsonify(response.to_dict())
     except plaid.ApiException as e:
         error_response = format_error(e)
