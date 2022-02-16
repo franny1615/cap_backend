@@ -152,11 +152,14 @@ def get_access_token():
 # https://plaid.com/docs/#transactions
 @app.route('/api/transactions', methods=['GET'])
 def get_transactions():
-    # Pull transactions for the last 30 days
-    start_date = (datetime.datetime.now() - timedelta(days=730))
+    # Pull transactions for the last 700 days
+    start_date = (datetime.datetime.now() - timedelta(days=700))
     end_date = datetime.datetime.now()
     try:
-        options = TransactionsGetRequestOptions()
+        options = TransactionsGetRequestOptions(
+            count=500,
+            offset=0
+        )
         request = TransactionsGetRequest(
             access_token=access_token,
             start_date=start_date.date(),
